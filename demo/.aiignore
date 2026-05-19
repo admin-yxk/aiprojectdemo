@@ -1,0 +1,42 @@
+# Maven
+
+target/
+
+# IDEA
+
+.idea/
+*.iml
+
+# Logs
+
+logs/
+*.log
+
+# Build
+
+build/
+out/
+
+# Node
+
+node_modules/
+dist/
+
+# Git
+
+.git/
+
+# Generated
+
+generated/
+tmp/
+temp/
+
+# Coverage
+
+coverage/
+
+# OS
+
+.DS_Store
+Thumbs.db
