@@ -1,14 +1,13 @@
 package com.example.demo.dto;
 
+import lombok.Getter;
+
+import java.util.List;
+
+@Getter
 public class AiRequest {
 
     private String prompt;
-
-    public String getPrompt() {
-        return prompt;
-    }
-
-    public void setPrompt(String prompt) {
-        this.prompt = prompt;
-    }
+    private String model = "deepseek-chat";
+    private List<Message> messages;
 }
