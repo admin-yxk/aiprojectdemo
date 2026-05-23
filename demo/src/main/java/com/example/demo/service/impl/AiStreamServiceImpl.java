@@ -81,7 +81,10 @@ public class AiStreamServiceImpl implements AiStreamService {
                 // DeepSeek 流式响应包含 SSE data 行，这里只向调用方输出 delta.content。
                 .flatMapIterable(this::extractDeltaContents)
                 .doOnNext(assistantContent::append)
-                .doOnComplete(() -> saveContext(userMessage, assistantContent.toString()));
+                .doOnComplete(() -> {
+                    log.debug("【AiStreamServiceImpl#aiAgentStream】结果：" + assistantContent.toString());
+                    saveContext(userMessage, assistantContent.toString());
+                });
     }
 
     /**
@@ -150,6 +153,7 @@ public class AiStreamServiceImpl implements AiStreamService {
                 contents.add(content);
             }
         }
+        //log.debug("【AiStreamServiceImpl#extractDeltaContents】模型返回结果：" + );
         return contents;
     }
 

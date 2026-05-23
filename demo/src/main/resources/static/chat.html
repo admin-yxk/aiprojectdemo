@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AI 流式输出测试</title>
+</head>
+<body>
+<h2>AI 流式输出测试</h2>
+
+<textarea id="question" rows="4" cols="60">你好</textarea>
+<br><br>
+
+<button onclick="sendMessage()">发送</button>
+
+<h3>AI 回复：</h3>
+<div id="answer"
+     style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; width: 600px; min-height: 200px;"></div>
+
+<script>
+    async function sendMessage() {
+        const question = document.getElementById("question").value;
+        const answerDiv = document.getElementById("answer");
+        answerDiv.innerText = "";
+
+        const response = await fetch("/agent/stream", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                prompt: "",
+                messages: [
+                    {
+                        role: "user",
+                        content: question
+                    }
+                ]
+            })
+        });
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+
+        while (true) {
+            const {value, done} = await reader.read();
+
+            if (done) {
+                break;
+            }
+
+            const chunk = decoder.decode(value, {stream: true});
+
+            const lines = chunk.split("\n");
+
+            for (const line of lines) {
+                if (line.startsWith("data:")) {
+                    const text = line.replace("data:", "");
+
+                    if (text && text !== "[DONE]") {
+                        await typeText(answerDiv, text, 50);
+                    }
+                }
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function typeText(element, text, delay = 50) {
+            for (const char of text) {
+                element.innerText += char;
+                await sleep(delay);
+            }
+        }
+    }
+</script>
+</body>
+</html>
