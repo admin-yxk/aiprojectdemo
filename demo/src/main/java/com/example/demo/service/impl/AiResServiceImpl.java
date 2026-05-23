@@ -43,7 +43,7 @@ public class AiResServiceImpl implements AiResService {
 
     @Override
     public synchronized String aiAgentReturn(AiRequest aiRequest) {
-        log.debug("AiResService_AI接口入参： " + objectMapper.writeValueAsString(aiRequest));
+        log.debug("【AiResServiceImpl#aiAgentReturn】AI接口入参：{}", objectMapper.writeValueAsString(aiRequest));
 
         // 只把本次请求中最后一条用户消息当作当前问题，prompt 字段预留给后续业务扩展。
         String userContent = getCurrentUserContent(aiRequest);
@@ -72,7 +72,7 @@ public class AiResServiceImpl implements AiResService {
                         HttpStatusCode::isError,
                         response -> response.bodyToMono(String.class)
                                 .flatMap(errorBody -> {
-                                    log.error("调用DeepSeek失败: {}", errorBody);
+                                    log.error("【AiResServiceImpl#aiAgentReturn】调用DeepSeek失败：{}", errorBody);
 
                                     return Mono.error(
                                             new BusinessException(
@@ -84,7 +84,7 @@ public class AiResServiceImpl implements AiResService {
                 .bodyToMono(AiRespons.class)
                 .block();
 
-        log.debug("AI接口返回值： " + respose);
+        log.debug("【AiResServiceImpl#aiAgentReturn】AI接口返回值：{}", respose);
 
         String content = respose.getChoices()
                 .get(0)

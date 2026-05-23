@@ -20,7 +20,7 @@ public class AiResController {
 
     @PostMapping("/agent")
     public String aiAgentReturn(@RequestBody AiRequest aiRequest){
-        log.debug("AiResController_AI接口入参： " + objectMapper.writeValueAsString(aiRequest));
+        log.debug("【AiResController#aiAgentReturn】AI接口入参：{}", objectMapper.writeValueAsString(aiRequest));
         return aiResService.aiAgentReturn(aiRequest);
     }
 }
