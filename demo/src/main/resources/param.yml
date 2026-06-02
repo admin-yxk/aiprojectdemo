@@ -1,3 +1,13 @@
+#deepseek配置
 deepseek:
   api-key: sk-85981ff208bf4297b036cae206c7c654
   dep-url: https://api.deepseek.com
+
+#RAG文档分割配置信息
+rag:
+  chunk-size: 1000
+  chunk-overlap: 150
+  top-k: 5
+  min-score: 0.4
+  embedding-model: your-embedding-model
+  vector-store-type: memory
