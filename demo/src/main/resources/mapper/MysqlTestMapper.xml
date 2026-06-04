@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MysqlTestMapper">
+
+    <!-- 查询当前连接的数据库名称 -->
+    <select id="selectCurrentDatabase" resultType="java.lang.String">
+        SELECT DATABASE()
+    </select>
+
+    <!-- 执行简单查询验证数据库连接 -->
+    <select id="selectConnectionTestValue" resultType="java.lang.Integer">
+        SELECT 1
+    </select>
+</mapper>
